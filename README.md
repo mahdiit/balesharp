@@ -29,3 +29,6 @@ Bale Messenger Bot Sample (C#)
 4. لاگ پیامهای دریافتی از سرور
 5. ارسال پیام متنی
 6. دکمه ارسال پیام
+
+توصیه
+![Image](https://mahdiit.github.io/balesharp/pic2.png)
