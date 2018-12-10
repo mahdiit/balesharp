@@ -250,6 +250,12 @@ namespace BaleBotWin
             {
                 socketConnection.Close(CloseStatusCode.Normal, "User Command");
             }
+
+            if (MessageBox.Show("Save Last Log?", "Save Log Data", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "LastLogData-" +
+                    DateTime.Now.ToString("yyMMdd-HHmmss") + ".txt", logData.Text);
+            }
         }
 
         private void btnSendMsg_Click(object sender, EventArgs e)
@@ -310,12 +316,6 @@ namespace BaleBotWin
                 return;
 
             var filePath = selectPhoto.FileName;
-            if (string.IsNullOrEmpty(filePath))
-            {
-                MessageBox.Show("فایل به درستی انتخاب نشده است");
-                return;
-            }
-
             var msg = SendMessageTools.UploadRequest(new FileInfo(filePath), true);
             socketConnection.Send(msg);
             socketConnection.Log.Info("Upload Requested");
