@@ -86,11 +86,11 @@
             // 
             // btnSendMsg
             // 
-            this.btnSendMsg.Location = new System.Drawing.Point(339, 359);
+            this.btnSendMsg.Location = new System.Drawing.Point(388, 359);
             this.btnSendMsg.Name = "btnSendMsg";
-            this.btnSendMsg.Size = new System.Drawing.Size(130, 41);
+            this.btnSendMsg.Size = new System.Drawing.Size(81, 41);
             this.btnSendMsg.TabIndex = 1;
-            this.btnSendMsg.Text = "Text Message";
+            this.btnSendMsg.Text = "Text";
             this.btnSendMsg.UseVisualStyleBackColor = true;
             this.btnSendMsg.Click += new System.EventHandler(this.btnSendMsg_Click);
             // 
@@ -112,9 +112,9 @@
             // 
             // btnSendDoc
             // 
-            this.btnSendDoc.Location = new System.Drawing.Point(203, 359);
+            this.btnSendDoc.Location = new System.Drawing.Point(302, 359);
             this.btnSendDoc.Name = "btnSendDoc";
-            this.btnSendDoc.Size = new System.Drawing.Size(130, 41);
+            this.btnSendDoc.Size = new System.Drawing.Size(80, 41);
             this.btnSendDoc.TabIndex = 1;
             this.btnSendDoc.Text = "Document";
             this.btnSendDoc.UseVisualStyleBackColor = true;
@@ -126,9 +126,9 @@
             // 
             // btnPhoto
             // 
-            this.btnPhoto.Location = new System.Drawing.Point(67, 359);
+            this.btnPhoto.Location = new System.Drawing.Point(222, 359);
             this.btnPhoto.Name = "btnPhoto";
-            this.btnPhoto.Size = new System.Drawing.Size(130, 41);
+            this.btnPhoto.Size = new System.Drawing.Size(74, 41);
             this.btnPhoto.TabIndex = 1;
             this.btnPhoto.Text = "Photo";
             this.btnPhoto.UseVisualStyleBackColor = true;
