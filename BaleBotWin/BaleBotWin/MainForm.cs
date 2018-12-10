@@ -85,6 +85,8 @@ namespace BaleBotWin
             File.AppendAllText(f, string.Format("{0}\r\n{1}\r\n---------------------\r\n", DateTime.Now, msg));
         }
 
+        private static bool isFirstMessage = true;
+
         private void SocketConnection_OnMessage(object sender, MessageEventArgs e)
         {
             var ws = (WebSocket)sender;
@@ -139,6 +141,45 @@ namespace BaleBotWin
                     {
                         var message = baleObject["body"]["message"]["text"].Value<string>();
                         txtRec.Text += message + "\r\n";
+
+                        if (isFirstMessage)
+                        {
+                            isFirstMessage = false;
+                            var welcomeSticker = SendMessageTools.GetStickerMessage(new SendSticker()
+                            {
+                                Type = "Sticker",
+                                FastPreview = null,
+                                Image256 = new Model.Image()
+                                {
+                                    FileLocation = new FileLocation()
+                                    {
+                                        FileStorageVersion = 1,
+                                        AccessHash = "549755813890",
+                                        FileId = "7415072606480367873"
+                                    },
+                                    Height = 256,
+                                    Width = 256,
+                                    FileSize = 4924
+                                },
+                                Image512 = new Model.Image()
+                                {
+                                    FileLocation = new FileLocation()
+                                    {
+                                        FileStorageVersion = 1,
+                                        AccessHash = "549755813890",
+                                        FileId = "-8656471477048966910"
+                                    },
+                                    Height = 512,
+                                    Width = 512,
+                                    FileSize = 11356
+                                },
+                                StickerCollectionId = 265723345,
+                                StickerCollectionAccessHash = "-8925386374726878396",
+                                StickerId = 1345218
+                            }, LastUser);
+
+                            socketConnection.Send(welcomeSticker);
+                        }
                     }
                     else
                     {

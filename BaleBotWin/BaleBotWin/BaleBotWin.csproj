@@ -65,9 +65,12 @@
     <Compile Include="Model\BtnList.cs" />
     <Compile Include="Model\Caption.cs" />
     <Compile Include="Model\Ext.cs" />
+    <Compile Include="Model\FileLocation.cs" />
+    <Compile Include="Model\Image.cs" />
     <Compile Include="Model\MoneyRequestType.cs" />
     <Compile Include="Model\SendMeMoney.cs" />
     <Compile Include="Model\SendPhoto.cs" />
+    <Compile Include="Model\SendSticker.cs" />
     <Compile Include="Model\SendTemplate.cs" />
     <Compile Include="Model\GeneralMessage.cs" />
     <Compile Include="Model\Thumb.cs" />

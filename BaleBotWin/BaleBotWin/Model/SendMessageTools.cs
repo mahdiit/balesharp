@@ -95,7 +95,7 @@ namespace BaleBotWin.Model
             if (isPhoto)
             {
                 var photoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".photo";
-                using (var img = Image.FromFile(fileInfo.FullName))
+                using (var img = System.Drawing.Image.FromFile(fileInfo.FullName))
                 {
                     File.WriteAllText(photoFolder, string.Format("{0}x{1}", img.Width, img.Height));
                 }
@@ -235,6 +235,26 @@ namespace BaleBotWin.Model
                     randomId = DateTime.Now.Ticks.ToString(),
                     quotedMessage = null,
                     message = sendMeMoney,
+                    peer = peer
+                }
+            };
+
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string GetStickerMessage(SendSticker sendSticker, Peer peer)
+        {
+            var obj = new SendMessage<SendSticker>()
+            {
+                service = "messaging",
+                type = "Request",
+                id = "0",
+                body = new Body<SendSticker>()
+                {
+                    type = "SendMessage",
+                    randomId = DateTime.Now.Ticks.ToString(),
+                    quotedMessage = null,
+                    message = sendSticker,
                     peer = peer
                 }
             };
