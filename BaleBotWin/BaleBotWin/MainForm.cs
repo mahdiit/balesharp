@@ -20,6 +20,8 @@ namespace BaleBotWin
     {
         private WebSocket socketConnection;
         private Peer LastUser;
+        private SendPhoto LastPhoto;
+
         public const string BaseApiUrl = "wss://api.bale.ai/v1/bots/";
 
         public MainForm()
@@ -140,10 +142,21 @@ namespace BaleBotWin
                     }
                     else
                     {
-                        //این پیام حاوی فایل یا سند یا عکس است
                         var msgType = baleObject["body"]["message"]["$type"].Value<string>();
-                        var mimeType = baleObject["body"]["message"]["mimeType"].Value<string>();
-                        txtRec.Text += msgType + "\t" + mimeType + "\r\n";
+                        if (msgType == "TemplateMessageResponse")
+                        {
+                            //این دستور از یک دکمه اومده
+                            var textMessage = baleObject["body"]["message"]["textMessage"].Value<string>();
+                            txtRec.Text += msgType + "\tBTN:" + textMessage + "\r\n";
+                        }
+                        else if (baleObject["body"]["message"]["mimeType"] != null)
+                        {
+                            //این پیام حاوی فایل یا سند یا عکس است
+                            var mimeType = baleObject["body"]["message"]["mimeType"].Value<string>();
+                            txtRec.Text += msgType + "\t" + mimeType + "\r\n";
+                        }
+                        else
+                            txtRec.Text += msgType;
                     }
                 }
 
@@ -189,21 +202,22 @@ namespace BaleBotWin
                             else
                             {
                                 var sizeData = photoSize.Split('x').Select(c => Convert.ToInt32(c)).ToArray();
-                                msg = SendMessageTools.GetPhotoMessage(new SendPhoto()
+                                LastPhoto = new SendPhoto()
                                 {
                                     Type = "Document",
                                     AccessHash = hash,
                                     Algorithm = "algorithm",
                                     CheckSum = "checkSum",
-                                    Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
+                                    Caption = new Caption() {Text = txtPayam.Text, Type = "Text"},
                                     FileId = fileId,
                                     FileSize = fileSize,
                                     FileStorageVersion = 1,
                                     Name = fileName,
                                     MimeType = "image/jpeg",
-                                    Ext = new Ext() { Type = "Photo", Width = sizeData[0], Height = sizeData[1] },
-                                    Thumb = new Thumb() { ThumbThumb = "None", Width = sizeData[0], Height = sizeData[1] }
-                                }, LastUser);
+                                    Ext = new Ext() {Type = "Photo", Width = sizeData[0], Height = sizeData[1]},
+                                    Thumb = new Thumb() {ThumbThumb = "None", Width = sizeData[0], Height = sizeData[1]}
+                                };
+                                msg = SendMessageTools.GetPhotoMessage(LastPhoto, LastUser);
                             }
 
                             socketConnection.Send(msg);
@@ -319,6 +333,79 @@ namespace BaleBotWin
             var msg = SendMessageTools.UploadRequest(new FileInfo(filePath), true);
             socketConnection.Send(msg);
             socketConnection.Log.Info("Upload Requested");
+        }
+
+        private void btnTemplate_Click(object sender, EventArgs e)
+        {
+            if (socketConnection == null || !socketConnection.IsAlive)
+            {
+                MessageBox.Show("ارتباط با سرور بله قطع است");
+                return;
+            }
+
+            if (LastUser == null)
+            {
+                MessageBox.Show("کاربری یافت نشد. ابتدا یک پیام به بات ارسال کنید");
+                return;
+            }
+
+            var msg = SendMessageTools.GetTemplateMessage(new SendTemplate()
+            {
+                Type = "TemplateMessage",
+                GeneralMessage = new GeneralMessage() { Type = "Text", Text = txtPayam.Text },
+                TemplateMessageId = 0,
+                BtnList = new List<BtnList>()
+                {
+                    new BtnList()
+                    {
+                        Text = "A1",
+                        Value = "A-1",
+                        Action = 0
+                    },
+                    new BtnList()
+                    {
+                        Text = "A2",
+                        Value = "A-2",
+                        Action = 1
+                    }
+                }
+            }, LastUser);
+
+            socketConnection.Send(msg);
+        }
+
+        private void btnMoney_Click(object sender, EventArgs e)
+        {
+            if (socketConnection == null || !socketConnection.IsAlive)
+            {
+                MessageBox.Show("ارتباط با سرور بله قطع است");
+                return;
+            }
+
+            if (LastUser == null)
+            {
+                MessageBox.Show("کاربری یافت نشد. ابتدا یک پیام به بات ارسال کنید");
+                return;
+            }
+
+            if (LastPhoto == null)
+            {
+                MessageBox.Show("ابتدا باید یک عکس بفرستین فکر کردی همین جوریه!!!\r\nشوخی کردم تو راهنمای ارسال عکس برای پول اجباریه");
+                MessageBox.Show("منم نمی دونم چرا ولی باید اول عکس بفرستی");
+                return;
+            }
+
+            var msg = SendMessageTools.GetMoneyMessage(new SendMeMoney()
+            {
+                Type = "PurchaseMessage",
+                AccountNumber = "6362144502059848",
+                Amount = 50000,
+                RegexAmount = "[]",
+                MoneyRequestType = new MoneyRequestType() {Type = "MoneyRequestNormal"},
+                Msg = LastPhoto
+            }, LastUser);
+
+            socketConnection.Send(msg);
         }
     }
 }

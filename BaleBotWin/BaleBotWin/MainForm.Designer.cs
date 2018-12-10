@@ -39,6 +39,8 @@
             this.selectUploadFile = new System.Windows.Forms.OpenFileDialog();
             this.btnPhoto = new System.Windows.Forms.Button();
             this.selectPhoto = new System.Windows.Forms.OpenFileDialog();
+            this.btnTemplate = new System.Windows.Forms.Button();
+            this.btnMoney = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logData
@@ -139,6 +141,26 @@
             this.selectPhoto.Filter = "Jpeg|*.jpg";
             this.selectPhoto.Title = "Select Photo";
             // 
+            // btnTemplate
+            // 
+            this.btnTemplate.Location = new System.Drawing.Point(142, 359);
+            this.btnTemplate.Name = "btnTemplate";
+            this.btnTemplate.Size = new System.Drawing.Size(74, 41);
+            this.btnTemplate.TabIndex = 1;
+            this.btnTemplate.Text = "Template";
+            this.btnTemplate.UseVisualStyleBackColor = true;
+            this.btnTemplate.Click += new System.EventHandler(this.btnTemplate_Click);
+            // 
+            // btnMoney
+            // 
+            this.btnMoney.Location = new System.Drawing.Point(62, 359);
+            this.btnMoney.Name = "btnMoney";
+            this.btnMoney.Size = new System.Drawing.Size(74, 41);
+            this.btnMoney.TabIndex = 1;
+            this.btnMoney.Text = "Money";
+            this.btnMoney.UseVisualStyleBackColor = true;
+            this.btnMoney.Click += new System.EventHandler(this.btnMoney_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -148,6 +170,8 @@
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.txtPayam);
             this.Controls.Add(this.txtRec);
+            this.Controls.Add(this.btnMoney);
+            this.Controls.Add(this.btnTemplate);
             this.Controls.Add(this.btnPhoto);
             this.Controls.Add(this.btnSendDoc);
             this.Controls.Add(this.btnSendMsg);
@@ -179,6 +203,8 @@
         private System.Windows.Forms.OpenFileDialog selectUploadFile;
         private System.Windows.Forms.Button btnPhoto;
         private System.Windows.Forms.OpenFileDialog selectPhoto;
+        private System.Windows.Forms.Button btnTemplate;
+        private System.Windows.Forms.Button btnMoney;
     }
 }
 

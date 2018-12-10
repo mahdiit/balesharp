@@ -201,5 +201,45 @@ namespace BaleBotWin.Model
             if (File.Exists(photoFolder))
                 File.Delete(photoFolder);
         }
+
+        public static string GetTemplateMessage(SendTemplate template, Peer peer)
+        {
+            var obj = new SendMessage<SendTemplate>()
+            {
+                service = "messaging",
+                type = "Request",
+                id = "0",
+                body = new Body<SendTemplate>()
+                {
+                    type = "SendMessage",
+                    randomId = DateTime.Now.Ticks.ToString(),
+                    quotedMessage = null,
+                    message = template,
+                    peer = peer
+                }
+            };
+
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string GetMoneyMessage(SendMeMoney sendMeMoney, Peer peer)
+        {
+            var obj = new SendMessage<SendMeMoney>()
+            {
+                service = "messaging",
+                type = "Request",
+                id = "0",
+                body = new Body<SendMeMoney>()
+                {
+                    type = "SendMessage",
+                    randomId = DateTime.Now.Ticks.ToString(),
+                    quotedMessage = null,
+                    message = sendMeMoney,
+                    peer = peer
+                }
+            };
+
+            return JsonConvert.SerializeObject(obj);
+        }
     }
 }

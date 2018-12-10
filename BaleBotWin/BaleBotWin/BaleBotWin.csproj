@@ -62,9 +62,14 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Body.cs" />
+    <Compile Include="Model\BtnList.cs" />
     <Compile Include="Model\Caption.cs" />
     <Compile Include="Model\Ext.cs" />
+    <Compile Include="Model\MoneyRequestType.cs" />
+    <Compile Include="Model\SendMeMoney.cs" />
     <Compile Include="Model\SendPhoto.cs" />
+    <Compile Include="Model\SendTemplate.cs" />
+    <Compile Include="Model\GeneralMessage.cs" />
     <Compile Include="Model\Thumb.cs" />
     <Compile Include="Model\UploadRequest.cs" />
     <Compile Include="Model\UploadRequestBody.cs" />
