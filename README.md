@@ -18,7 +18,7 @@ Bale Messenger Bot Sample (C#)
 * https://www.newtonsoft.com/json
 
 در زیر نمای این برنامه نمایش داده شده است
-![Image](https://mahdiit.github.io/balesharp/pic1.png)
+![Image](https://mahdiit.github.io/balesharp/pic3.png)
 
 * VS 2017
 * .Net 4.6.2 WinForm C#
@@ -30,5 +30,4 @@ Bale Messenger Bot Sample (C#)
 5. ارسال پیام متنی
 6. دکمه ارسال پیام
 
-توصیه
 ![Image](https://mahdiit.github.io/balesharp/pic2.png)
