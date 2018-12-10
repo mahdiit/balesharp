@@ -62,10 +62,16 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Body.cs" />
+    <Compile Include="Model\Caption.cs" />
+    <Compile Include="Model\UploadRequest.cs" />
+    <Compile Include="Model\UploadRequestBody.cs" />
     <Compile Include="Model\Message.cs" />
+    <Compile Include="Model\ParseStringConverter.cs" />
     <Compile Include="Model\Peer.cs" />
+    <Compile Include="Model\SendDocument.cs" />
     <Compile Include="Model\Sender.cs" />
     <Compile Include="Model\SendMessage.cs" />
+    <Compile Include="Model\SendMessageTools.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -93,6 +99,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FileCache\_nomedia.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

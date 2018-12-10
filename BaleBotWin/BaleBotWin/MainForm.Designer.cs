@@ -35,6 +35,8 @@
             this.btnSendMsg = new System.Windows.Forms.Button();
             this.txtToken = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnSendDoc = new System.Windows.Forms.Button();
+            this.selectUploadFile = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // logData
@@ -53,9 +55,9 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(177, 162);
+            this.btnConnect.Location = new System.Drawing.Point(339, 162);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(124, 41);
+            this.btnConnect.Size = new System.Drawing.Size(130, 41);
             this.btnConnect.TabIndex = 1;
             this.btnConnect.Text = "Connect";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -82,11 +84,11 @@
             // 
             // btnSendMsg
             // 
-            this.btnSendMsg.Location = new System.Drawing.Point(132, 359);
+            this.btnSendMsg.Location = new System.Drawing.Point(339, 359);
             this.btnSendMsg.Name = "btnSendMsg";
-            this.btnSendMsg.Size = new System.Drawing.Size(209, 41);
+            this.btnSendMsg.Size = new System.Drawing.Size(130, 41);
             this.btnSendMsg.TabIndex = 1;
-            this.btnSendMsg.Text = "Send message to last user";
+            this.btnSendMsg.Text = "Text Message";
             this.btnSendMsg.UseVisualStyleBackColor = true;
             this.btnSendMsg.Click += new System.EventHandler(this.btnSendMsg_Click);
             // 
@@ -106,6 +108,20 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Token";
             // 
+            // btnSendDoc
+            // 
+            this.btnSendDoc.Location = new System.Drawing.Point(203, 359);
+            this.btnSendDoc.Name = "btnSendDoc";
+            this.btnSendDoc.Size = new System.Drawing.Size(130, 41);
+            this.btnSendDoc.TabIndex = 1;
+            this.btnSendDoc.Text = "Document";
+            this.btnSendDoc.UseVisualStyleBackColor = true;
+            this.btnSendDoc.Click += new System.EventHandler(this.btnSendDoc_Click);
+            // 
+            // selectUploadFile
+            // 
+            this.selectUploadFile.Title = "Select File";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -115,6 +131,7 @@
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.txtPayam);
             this.Controls.Add(this.txtRec);
+            this.Controls.Add(this.btnSendDoc);
             this.Controls.Add(this.btnSendMsg);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.logData);
@@ -140,6 +157,8 @@
         private System.Windows.Forms.Button btnSendMsg;
         private System.Windows.Forms.TextBox txtToken;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnSendDoc;
+        private System.Windows.Forms.OpenFileDialog selectUploadFile;
     }
 }
 

@@ -2,7 +2,7 @@
 
 namespace BaleBotWin.Model
 {
-    public class Body
+    public class Body<T>
     {
         [JsonProperty("$type")]
         public string type { get; set; }
@@ -10,7 +10,7 @@ namespace BaleBotWin.Model
         public string date { get; set; }
         public string randomId { get; set; }
         public Peer peer { get; set; }
-        public Message message { get; set; }
+        public T message { get; set; }
         public object quotedMessage { get; set; }
     }
 }

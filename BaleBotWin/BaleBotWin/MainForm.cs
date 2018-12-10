@@ -146,6 +146,43 @@ namespace BaleBotWin
                     }
                 }
 
+                if (mainType == "Response")
+                {
+                    if (baleObject["body"]["url"] != null)
+                    {
+                        //دریافت پاسخ برای آپلود فایل و ارسال فایل
+                        var id = baleObject["id"].Value<long>();
+                        var uploadUrl = baleObject["body"]["url"].Value<string>();
+
+                        long fileSize;
+                        string fileName;
+
+                        if (SendMessageTools.UploadFile(id, uploadUrl, socketConnection, out fileName, out fileSize))
+                        {
+                            //send Info
+                            var fileId = baleObject["body"]["fileId"].Value<string>();
+                            var hash = baleObject["body"]["userId"].Value<long>();
+
+                            var msg = SendMessageTools.GetDocumentMessage(new SendDocument()
+                            {
+                                Type = "Document",
+                                AccessHash = hash,
+                                Algorithm = "algorithm",
+                                CheckSum = "checkSum",
+                                Caption = new Caption(){ Text = txtPayam.Text, Type = "Text"},
+                                Ext = null,
+                                FileId = fileId,
+                                FileSize = fileSize,
+                                FileStorageVersion = 1,
+                                MimeType = "application/document",
+                                Name = fileName,
+                                Thumb = null
+                            }, LastUser);
+                            socketConnection.Send(msg);
+                        }
+                    }
+                }
+
                 txtRec.SelectionStart = txtRec.TextLength;
                 txtRec.ScrollToCaret();
             }
@@ -200,7 +237,18 @@ namespace BaleBotWin
                 return;
             }
 
-            socketConnection.Send(SendMessage.GetMessage(txtPayam.Text, LastUser));
+            socketConnection.Send(SendMessageTools.GetTextMessage(txtPayam.Text, LastUser));
+        }
+
+        private void btnSendDoc_Click(object sender, EventArgs e)
+        {
+            if (selectUploadFile.ShowDialog() != DialogResult.OK)
+                return;
+
+            var filePath = selectUploadFile.FileName;
+            var msg = SendMessageTools.UploadRequest(new FileInfo(filePath), false);
+            socketConnection.Send(msg);
+            socketConnection.Log.Info("Upload Requested");
         }
     }
 }
