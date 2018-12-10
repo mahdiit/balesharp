@@ -1,0 +1,49 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/rastikerdar/vazir-font/v19.0.0/dist/font-face.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style type="text/css">
+        html, body, * {
+            font-family: 'Vazir', sans-serif !important;
+        }
+    </style>
+</head>
+<body dir="rtl">
+<h1>نمونه اتصال به سرور پیام رسان بله در سی شارپ</h1>
+<hr/>
+<p>توضیحات</p>
+<p>سرورهای پیام رسان بله برای ارتباط از وب سوکت استفاده میکنن در برنامه نویسی سی شارپ پیاده سازی وب سوکت توسط ماکروسافت بصورت تکنولوژی SignalR هست که قابل استفاده نیست</p>
+<p>کتابخانه های دیگری در گیت هست که وب سوکت را بصورت استاندارد پیاده سازی کرده اند</p>
+<hr/>
+<p class="alert alert-info">در صورت ارسال پیام اشتباه به سرور بله بلافاصله کانکشن شما بسته خواهد شد!!!!!! پس فکر نکنید اگر جیسون اشتباه بفرستین پیام خطا یا چیزی دیگری دریافت میکنید فقط خطای Internal Server Error دریافت خواهید کرد</p>
+<p>مدلهای جیسون را میتوانید از سایت خودشون دریافت کنید که نمونه هایی هست ولی توضیحات عجیبی هم هست مثلا در بخش های اومدن تلگرام رو توضیح دادن که مشخص نیست برای چی هست</p>
+<p>مدل ارسال:</p>
+<p>ارسال پیام متنی: این ارسال ساده است و یک جیسون ساده ارسال میکنید </p>
+<p>ارسال عکس یا فایل: ارسال پیام با درد و خونریزی!!!!</p>
+<p>در این نوع ارسال کمی پیچیده باید عمل کنید:</p>
+<ul>
+    <li>ابتدا باید یک پیام درخواست به سرور بله با کد اختصاصی ارسال کنید این کد را به همراه محتوای فایل های ذخیره کنید</li>
+    <li>منتظر بمانید تا سرور بله یک پیام Response ارسال کند</li>
+    <li>دقت کنید که هیچ گونه نوعی در پیامهای Response وجود ندارد!!!!! شما باید خودتان متوجه شوید این پیام پاسخ پیام قبلی است</li>
+    <li>از روی کد اختصاصی این موضوع را دریافت کنید</li>
+    <li>در نتیجه فایل را آپلود کنید</li>
+    <li>فایل آپلود شده را به کاربر ارسال کنید</li>
+</ul>
+<p>اگر نفهمیدین که چه مدلی میشه فایل آپلود کرد مهم نیست چون خود من هم نفهمیدم یه 10 باری تست کردم تا فهمیدم</p>
+<p>هنوز برام جای ابهام داره که چرا اولش درخواست آپلود میدیم بعد فایل رو میفرستیم خوب یهو ارسال کنیم دیگه خخخخخ شما بهشون بگین </p>
+<p class="alert alert-info">زیاد با این برنامه سر و کله زدین میفهین که خیلی چیزهای عجیبی نوشتن که خودشون هم نمیدونن چیه</p>
+<p>مثلا</p>
+<p>باید توی مدل جیسون همش یه سری چیزهایی که بدرد نمیخوره رو بصورت ثابت ارسال کنید که وقتی باهاش کار کنید میفهمین</p>
+<p>احتمالا میخواستن بیشتر بندویث مصرف بشه هر بار الکی پست بشه به سرورشون</p>
+</body>
+</html>
