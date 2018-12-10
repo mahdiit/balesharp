@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
@@ -60,6 +61,26 @@ namespace BaleBotWin.Model
             return JsonConvert.SerializeObject(obj);
         }
 
+        public static string GetPhotoMessage(SendPhoto photo, Peer peer)
+        {
+            var obj = new SendMessage<SendPhoto>()
+            {
+                service = "messaging",
+                type = "Request",
+                id = "0",
+                body = new Body<SendPhoto>()
+                {
+                    type = "SendMessage",
+                    randomId = DateTime.Now.Ticks.ToString(),
+                    quotedMessage = null,
+                    message = photo,
+                    peer = peer
+                }
+            };
+
+            return JsonConvert.SerializeObject(obj);
+        }
+
         public static string UploadRequest(FileInfo fileInfo, bool isPhoto)
         {
             var fileData = File.ReadAllBytes(fileInfo.FullName);
@@ -70,6 +91,15 @@ namespace BaleBotWin.Model
             var saveCacheFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache";
             var saveCrcFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".crc";
             var infoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".info";
+
+            if (isPhoto)
+            {
+                var photoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".photo";
+                using (var img = Image.FromFile(fileInfo.FullName))
+                {
+                    File.WriteAllText(photoFolder, string.Format("{0}x{1}", img.Width, img.Height));
+                }
+            }
 
             File.WriteAllBytes(saveCacheFolder, fileData);
             File.WriteAllText(saveCrcFolder, crc);
@@ -93,19 +123,26 @@ namespace BaleBotWin.Model
             return JsonConvert.SerializeObject(request);
         }
 
-        public static bool UploadFile(long id, string uploadUrl, WebSocket ws, out string fileName, out long fileSize)
+        public static bool UploadFile(long id, string uploadUrl, WebSocket ws, out string fileName, out long fileSize, out string photoSize)
         {
             var filePath = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache";
             var crcPath = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".crc";
             var infoPath = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".info";
+            var photoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".photo";
 
             fileName = string.Empty;
             fileSize = 0;
+            photoSize = string.Empty;
 
             if (!File.Exists(filePath))
             {
                 ws.Log.Info("FileID not found: " + id);
                 return false;
+            }
+
+            if (File.Exists(photoFolder))
+            {
+                photoSize = File.ReadAllText(photoFolder);
             }
 
             try
@@ -148,6 +185,21 @@ namespace BaleBotWin.Model
             }
 
             return false;
+        }
+
+        public static void DeleteCacheUpload(long id)
+        {
+            var saveCacheFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache";
+            var saveCrcFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".crc";
+            var infoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".info";
+            var photoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".photo";
+
+            File.Delete(saveCacheFolder);
+            File.Delete(saveCrcFolder);
+            File.Delete(infoFolder);
+
+            if (File.Exists(photoFolder))
+                File.Delete(photoFolder);
         }
     }
 }

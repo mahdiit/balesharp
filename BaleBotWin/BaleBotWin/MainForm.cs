@@ -12,6 +12,7 @@ using BaleBotWin.Model;
 using Newtonsoft.Json.Linq;
 using WebSocketSharp;
 using ErrorEventArgs = WebSocketSharp.ErrorEventArgs;
+using Ext = BaleBotWin.Model.Ext;
 
 namespace BaleBotWin
 {
@@ -84,7 +85,7 @@ namespace BaleBotWin
 
         private void SocketConnection_OnMessage(object sender, MessageEventArgs e)
         {
-            var ws = (WebSocket) sender;
+            var ws = (WebSocket)sender;
             if (e.IsText)
             {
                 ws.Log.Info("Text Message");
@@ -127,7 +128,7 @@ namespace BaleBotWin
                 }
 
                 txtRec.Text += mainType + "\t" + subType + "\t" + date + "\r\n";
-                
+
                 //این یک پیام است
                 if (mainType == "FatSeqUpdate" && subType == "Message")
                 {
@@ -156,29 +157,57 @@ namespace BaleBotWin
 
                         long fileSize;
                         string fileName;
+                        string photoSize;
 
-                        if (SendMessageTools.UploadFile(id, uploadUrl, socketConnection, out fileName, out fileSize))
+                        if (SendMessageTools.UploadFile(id, uploadUrl, socketConnection, out fileName, out fileSize, out photoSize))
                         {
                             //send Info
                             var fileId = baleObject["body"]["fileId"].Value<string>();
                             var hash = baleObject["body"]["userId"].Value<long>();
 
-                            var msg = SendMessageTools.GetDocumentMessage(new SendDocument()
+                            string msg;
+
+                            //تشخیص ارسال عکس
+                            if (string.IsNullOrEmpty(photoSize))
                             {
-                                Type = "Document",
-                                AccessHash = hash,
-                                Algorithm = "algorithm",
-                                CheckSum = "checkSum",
-                                Caption = new Caption(){ Text = txtPayam.Text, Type = "Text"},
-                                Ext = null,
-                                FileId = fileId,
-                                FileSize = fileSize,
-                                FileStorageVersion = 1,
-                                MimeType = "application/document",
-                                Name = fileName,
-                                Thumb = null
-                            }, LastUser);
+                                msg = SendMessageTools.GetDocumentMessage(new SendDocument()
+                                {
+                                    Type = "Document",
+                                    AccessHash = hash,
+                                    Algorithm = "algorithm",
+                                    CheckSum = "checkSum",
+                                    Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
+                                    Ext = null,
+                                    FileId = fileId,
+                                    FileSize = fileSize,
+                                    FileStorageVersion = 1,
+                                    MimeType = "application/document",
+                                    Name = fileName,
+                                    Thumb = null
+                                }, LastUser);
+                            }
+                            else
+                            {
+                                var sizeData = photoSize.Split('x').Select(c => Convert.ToInt32(c)).ToArray();
+                                msg = SendMessageTools.GetPhotoMessage(new SendPhoto()
+                                {
+                                    Type = "Document",
+                                    AccessHash = hash,
+                                    Algorithm = "algorithm",
+                                    CheckSum = "checkSum",
+                                    Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
+                                    FileId = fileId,
+                                    FileSize = fileSize,
+                                    FileStorageVersion = 1,
+                                    Name = fileName,
+                                    MimeType = "image/jpeg",
+                                    Ext = new Ext() { Type = "Photo", Width = sizeData[0], Height = sizeData[1] },
+                                    Thumb = new Thumb() { ThumbThumb = "None", Width = sizeData[0], Height = sizeData[1] }
+                                }, LastUser);
+                            }
+
                             socketConnection.Send(msg);
+                            SendMessageTools.DeleteCacheUpload(id);
                         }
                     }
                 }
@@ -205,13 +234,13 @@ namespace BaleBotWin
 
         private void SocketConnection_OnError(object sender, ErrorEventArgs e)
         {
-            var ws = (WebSocket) sender;
+            var ws = (WebSocket)sender;
             ws.Log.Error(e.Message);
         }
 
         private void SocketConnection_OnOpen(object sender, EventArgs e)
         {
-            var ws = (WebSocket) sender;
+            var ws = (WebSocket)sender;
             ws.Log.Info("Connection now open");
         }
 
@@ -242,11 +271,52 @@ namespace BaleBotWin
 
         private void btnSendDoc_Click(object sender, EventArgs e)
         {
+            if (socketConnection == null || !socketConnection.IsAlive)
+            {
+                MessageBox.Show("ارتباط با سرور بله قطع است");
+                return;
+            }
+
+            if (LastUser == null)
+            {
+                MessageBox.Show("کاربری یافت نشد. ابتدا یک پیام به بات ارسال کنید");
+                return;
+            }
+
             if (selectUploadFile.ShowDialog() != DialogResult.OK)
                 return;
 
             var filePath = selectUploadFile.FileName;
             var msg = SendMessageTools.UploadRequest(new FileInfo(filePath), false);
+            socketConnection.Send(msg);
+            socketConnection.Log.Info("Upload Requested");
+        }
+
+        private void btnPhoto_Click(object sender, EventArgs e)
+        {
+            if (socketConnection == null || !socketConnection.IsAlive)
+            {
+                MessageBox.Show("ارتباط با سرور بله قطع است");
+                return;
+            }
+
+            if (LastUser == null)
+            {
+                MessageBox.Show("کاربری یافت نشد. ابتدا یک پیام به بات ارسال کنید");
+                return;
+            }
+
+            if (selectPhoto.ShowDialog() != DialogResult.OK)
+                return;
+
+            var filePath = selectPhoto.FileName;
+            if (string.IsNullOrEmpty(filePath))
+            {
+                MessageBox.Show("فایل به درستی انتخاب نشده است");
+                return;
+            }
+
+            var msg = SendMessageTools.UploadRequest(new FileInfo(filePath), true);
             socketConnection.Send(msg);
             socketConnection.Log.Info("Upload Requested");
         }

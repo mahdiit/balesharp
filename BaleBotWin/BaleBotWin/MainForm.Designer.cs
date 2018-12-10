@@ -37,6 +37,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnSendDoc = new System.Windows.Forms.Button();
             this.selectUploadFile = new System.Windows.Forms.OpenFileDialog();
+            this.btnPhoto = new System.Windows.Forms.Button();
+            this.selectPhoto = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // logData
@@ -122,6 +124,21 @@
             // 
             this.selectUploadFile.Title = "Select File";
             // 
+            // btnPhoto
+            // 
+            this.btnPhoto.Location = new System.Drawing.Point(67, 359);
+            this.btnPhoto.Name = "btnPhoto";
+            this.btnPhoto.Size = new System.Drawing.Size(130, 41);
+            this.btnPhoto.TabIndex = 1;
+            this.btnPhoto.Text = "Photo";
+            this.btnPhoto.UseVisualStyleBackColor = true;
+            this.btnPhoto.Click += new System.EventHandler(this.btnPhoto_Click);
+            // 
+            // selectPhoto
+            // 
+            this.selectPhoto.Filter = "Jpeg|*.jpg";
+            this.selectPhoto.Title = "Select Photo";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -131,6 +148,7 @@
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.txtPayam);
             this.Controls.Add(this.txtRec);
+            this.Controls.Add(this.btnPhoto);
             this.Controls.Add(this.btnSendDoc);
             this.Controls.Add(this.btnSendMsg);
             this.Controls.Add(this.btnConnect);
@@ -159,6 +177,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSendDoc;
         private System.Windows.Forms.OpenFileDialog selectUploadFile;
+        private System.Windows.Forms.Button btnPhoto;
+        private System.Windows.Forms.OpenFileDialog selectPhoto;
     }
 }
 
