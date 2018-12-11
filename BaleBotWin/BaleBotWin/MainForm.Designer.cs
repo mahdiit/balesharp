@@ -41,6 +41,8 @@
             this.selectPhoto = new System.Windows.Forms.OpenFileDialog();
             this.btnTemplate = new System.Windows.Forms.Button();
             this.btnMoney = new System.Windows.Forms.Button();
+            this.btnVoice = new System.Windows.Forms.Button();
+            this.openOggAudio = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // logData
@@ -83,12 +85,12 @@
             this.txtPayam.Multiline = true;
             this.txtPayam.Name = "txtPayam";
             this.txtPayam.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtPayam.Size = new System.Drawing.Size(457, 144);
+            this.txtPayam.Size = new System.Drawing.Size(457, 95);
             this.txtPayam.TabIndex = 2;
             // 
             // btnSendMsg
             // 
-            this.btnSendMsg.Location = new System.Drawing.Point(388, 359);
+            this.btnSendMsg.Location = new System.Drawing.Point(388, 310);
             this.btnSendMsg.Name = "btnSendMsg";
             this.btnSendMsg.Size = new System.Drawing.Size(81, 41);
             this.btnSendMsg.TabIndex = 1;
@@ -114,7 +116,7 @@
             // 
             // btnSendDoc
             // 
-            this.btnSendDoc.Location = new System.Drawing.Point(302, 359);
+            this.btnSendDoc.Location = new System.Drawing.Point(388, 356);
             this.btnSendDoc.Name = "btnSendDoc";
             this.btnSendDoc.Size = new System.Drawing.Size(80, 41);
             this.btnSendDoc.TabIndex = 1;
@@ -128,7 +130,7 @@
             // 
             // btnPhoto
             // 
-            this.btnPhoto.Location = new System.Drawing.Point(222, 359);
+            this.btnPhoto.Location = new System.Drawing.Point(308, 310);
             this.btnPhoto.Name = "btnPhoto";
             this.btnPhoto.Size = new System.Drawing.Size(74, 41);
             this.btnPhoto.TabIndex = 1;
@@ -143,7 +145,7 @@
             // 
             // btnTemplate
             // 
-            this.btnTemplate.Location = new System.Drawing.Point(142, 359);
+            this.btnTemplate.Location = new System.Drawing.Point(308, 356);
             this.btnTemplate.Name = "btnTemplate";
             this.btnTemplate.Size = new System.Drawing.Size(74, 41);
             this.btnTemplate.TabIndex = 1;
@@ -153,13 +155,28 @@
             // 
             // btnMoney
             // 
-            this.btnMoney.Location = new System.Drawing.Point(62, 359);
+            this.btnMoney.Location = new System.Drawing.Point(228, 356);
             this.btnMoney.Name = "btnMoney";
             this.btnMoney.Size = new System.Drawing.Size(74, 41);
             this.btnMoney.TabIndex = 1;
             this.btnMoney.Text = "Money";
             this.btnMoney.UseVisualStyleBackColor = true;
             this.btnMoney.Click += new System.EventHandler(this.btnMoney_Click);
+            // 
+            // btnVoice
+            // 
+            this.btnVoice.Location = new System.Drawing.Point(228, 309);
+            this.btnVoice.Name = "btnVoice";
+            this.btnVoice.Size = new System.Drawing.Size(74, 41);
+            this.btnVoice.TabIndex = 1;
+            this.btnVoice.Text = "Mp3";
+            this.btnVoice.UseVisualStyleBackColor = true;
+            this.btnVoice.Click += new System.EventHandler(this.btnVoice_Click);
+            // 
+            // openOggAudio
+            // 
+            this.openOggAudio.Filter = "Mp3 File|*.mp3|All File|*.*";
+            this.openOggAudio.Title = "Select Voice";
             // 
             // MainForm
             // 
@@ -170,6 +187,7 @@
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.txtPayam);
             this.Controls.Add(this.txtRec);
+            this.Controls.Add(this.btnVoice);
             this.Controls.Add(this.btnMoney);
             this.Controls.Add(this.btnTemplate);
             this.Controls.Add(this.btnPhoto);
@@ -205,6 +223,8 @@
         private System.Windows.Forms.OpenFileDialog selectPhoto;
         private System.Windows.Forms.Button btnTemplate;
         private System.Windows.Forms.Button btnMoney;
+        private System.Windows.Forms.Button btnVoice;
+        private System.Windows.Forms.OpenFileDialog openOggAudio;
     }
 }
 

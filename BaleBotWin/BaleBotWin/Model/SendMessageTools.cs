@@ -3,6 +3,9 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using BaleBotWin.BinTools.MediaInfoMeta.Model;
+using BaleBotWin.FileCache;
+using CliWrap;
 using Force.Crc32;
 using Newtonsoft.Json;
 using WebSocketSharp;
@@ -81,29 +84,43 @@ namespace BaleBotWin.Model
             return JsonConvert.SerializeObject(obj);
         }
 
-        public static string UploadRequest(FileInfo fileInfo, bool isPhoto)
+        public static string UploadRequest(FileInfo fileInfo, UploadTypeEnum uploadType)
         {
             var fileData = File.ReadAllBytes(fileInfo.FullName);
             var fileName = fileInfo.Name;
 
             var id = DateTime.Now.Ticks;
             var crc = CalculateCrc(fileData);
-            var saveCacheFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache";
-            var saveCrcFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".crc";
-            var infoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".info";
+
+            var cacheInfo = new FileInfoModel() { Crc = crc, Name = fileName, UploadType = uploadType, Size = fileData.Length };
+
+            var cacheFile = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache";
+            var infoFile = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".info";
+
+
+            var isPhoto = uploadType == UploadTypeEnum.Photo || uploadType == UploadTypeEnum.MoneyPhoto;
 
             if (isPhoto)
             {
-                var photoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".photo";
                 using (var img = System.Drawing.Image.FromFile(fileInfo.FullName))
                 {
-                    File.WriteAllText(photoFolder, string.Format("{0}x{1}", img.Width, img.Height));
+                    cacheInfo.Width = img.Width;
+                    cacheInfo.Height = img.Height;
                 }
             }
 
-            File.WriteAllBytes(saveCacheFolder, fileData);
-            File.WriteAllText(saveCrcFolder, crc);
-            File.WriteAllText(infoFolder, fileName);
+            if (uploadType == UploadTypeEnum.Voice)
+            {
+                var result = new Cli(AppDomain.CurrentDomain.BaseDirectory + "BinTools\\MediaInfoMeta\\MediaInfo.exe")
+                    .SetArguments("\"" + fileInfo.FullName + "\" --Output=JSON")
+                    .Execute();
+
+                var jsonResult = JsonConvert.DeserializeObject<AudioMediaInfo>(result.StandardOutput);
+                cacheInfo.Duration = jsonResult.Media.Track[0].Duration;
+            }
+
+            File.WriteAllBytes(cacheFile, fileData);
+            File.WriteAllText(infoFile, JsonConvert.SerializeObject(cacheInfo));
 
             var request = new UploadRequest()
             {
@@ -123,16 +140,12 @@ namespace BaleBotWin.Model
             return JsonConvert.SerializeObject(request);
         }
 
-        public static bool UploadFile(long id, string uploadUrl, WebSocket ws, out string fileName, out long fileSize, out string photoSize)
+        public static bool UploadFile(long id, string uploadUrl, WebSocket ws, out FileCache.FileInfoModel fileInfoModel)
         {
             var filePath = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache";
-            var crcPath = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".crc";
             var infoPath = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".info";
-            var photoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".photo";
 
-            fileName = string.Empty;
-            fileSize = 0;
-            photoSize = string.Empty;
+            fileInfoModel = null;
 
             if (!File.Exists(filePath))
             {
@@ -140,10 +153,7 @@ namespace BaleBotWin.Model
                 return false;
             }
 
-            if (File.Exists(photoFolder))
-            {
-                photoSize = File.ReadAllText(photoFolder);
-            }
+            fileInfoModel = JsonConvert.DeserializeObject<FileInfoModel>(File.ReadAllText(infoPath));
 
             try
             {
@@ -156,11 +166,8 @@ namespace BaleBotWin.Model
                 request.Method = "PUT";
                 request.Headers.Add("filesize", fileData.Length.ToString());
 
-                ws.Log.Info("LocalFile CRC: " + File.ReadAllText(crcPath));
+                ws.Log.Info("LocalFile CRC: " + fileInfoModel.Crc);
                 ws.Log.Info("LocalFile Size: " + fileData.Length + " byte");
-
-                fileSize = fileData.Length;
-                fileName = File.ReadAllText(infoPath);
 
                 using (Stream writer = request.GetRequestStream())
                 {
@@ -190,16 +197,10 @@ namespace BaleBotWin.Model
         public static void DeleteCacheUpload(long id)
         {
             var saveCacheFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache";
-            var saveCrcFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".crc";
             var infoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".info";
-            var photoFolder = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".photo";
 
             File.Delete(saveCacheFolder);
-            File.Delete(saveCrcFolder);
             File.Delete(infoFolder);
-
-            if (File.Exists(photoFolder))
-                File.Delete(photoFolder);
         }
 
         public static string GetTemplateMessage(SendTemplate template, Peer peer)
@@ -235,6 +236,26 @@ namespace BaleBotWin.Model
                     randomId = DateTime.Now.Ticks.ToString(),
                     quotedMessage = null,
                     message = sendMeMoney,
+                    peer = peer
+                }
+            };
+
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        public static string GetSendVoice(SendVoice sendVoice, Peer peer)
+        {
+            var obj = new SendMessage<SendVoice>()
+            {
+                service = "messaging",
+                type = "Request",
+                id = "0",
+                body = new Body<SendVoice>()
+                {
+                    type = "SendMessage",
+                    randomId = DateTime.Now.Ticks.ToString(),
+                    quotedMessage = null,
+                    message = sendVoice,
                     peer = peer
                 }
             };

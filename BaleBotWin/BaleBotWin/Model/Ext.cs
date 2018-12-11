@@ -12,5 +12,8 @@ namespace BaleBotWin.Model
 
         [JsonProperty("width", NullValueHandling = NullValueHandling.Ignore)]
         public long? Width { get; set; }
+
+        [JsonProperty("duration", NullValueHandling = NullValueHandling.Ignore)]
+        public long? Duration { get; set; }
     }
 }

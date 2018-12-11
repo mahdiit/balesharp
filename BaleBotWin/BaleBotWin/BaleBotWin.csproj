@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CliWrap, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CliWrap.2.1.0\lib\net45\CliWrap.dll</HintPath>
+    </Reference>
     <Reference Include="Crc32.NET, Version=1.0.0.0, Culture=neutral, PublicKeyToken=dc0b95cf99bf4e99, processorArchitecture=MSIL">
       <HintPath>..\packages\Crc32.NET.1.2.0\lib\net20\Crc32.NET.dll</HintPath>
     </Reference>
@@ -55,6 +58,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinTools\MediaInfoMeta\Model\AudioMediaInfo.cs" />
+    <Compile Include="BinTools\MediaInfoMeta\Model\Media.cs" />
+    <Compile Include="BinTools\MediaInfoMeta\Model\Track.cs" />
+    <Compile Include="FileCache\FileInfoModel.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +80,7 @@
     <Compile Include="Model\SendSticker.cs" />
     <Compile Include="Model\SendTemplate.cs" />
     <Compile Include="Model\GeneralMessage.cs" />
+    <Compile Include="Model\SendVoice.cs" />
     <Compile Include="Model\Thumb.cs" />
     <Compile Include="Model\UploadRequest.cs" />
     <Compile Include="Model\UploadRequestBody.cs" />
@@ -83,6 +91,7 @@
     <Compile Include="Model\Sender.cs" />
     <Compile Include="Model\SendMessage.cs" />
     <Compile Include="Model\SendMessageTools.cs" />
+    <Compile Include="Model\UploadType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -97,6 +106,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Content Include="BinTools\MediaInfoMeta\LICENSE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,9 +124,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BinTools\MediaInfoMeta\LIBCURL.DLL">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BinTools\MediaInfoMeta\License.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BinTools\MediaInfoMeta\MediaInfo.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="FileCache\_nomedia.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
