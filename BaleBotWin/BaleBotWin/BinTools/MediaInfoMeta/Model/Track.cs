@@ -106,4 +106,141 @@ namespace BaleBotWin.BinTools.MediaInfoMeta.Model
         [JsonProperty("Encoded_Library_Date", NullValueHandling = NullValueHandling.Ignore)]
         public string EncodedLibraryDate { get; set; }
     }
+    
+    public partial class Track
+    {
+        [JsonProperty("VideoCount", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? VideoCount { get; set; }
+        
+        [JsonProperty("Format_Profile", NullValueHandling = NullValueHandling.Ignore)]
+        public string FormatProfile { get; set; }
+
+        [JsonProperty("CodecID", NullValueHandling = NullValueHandling.Ignore)]
+        public string CodecId { get; set; }
+
+        [JsonProperty("CodecID_Compatible", NullValueHandling = NullValueHandling.Ignore)]
+        public string CodecIdCompatible { get; set; }
+
+        [JsonProperty("FrameRate", NullValueHandling = NullValueHandling.Ignore)]
+        public string FrameRate { get; set; }
+
+        [JsonProperty("FrameCount", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? FrameCount { get; set; }
+
+        [JsonProperty("HeaderSize", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? HeaderSize { get; set; }
+
+        [JsonProperty("DataSize", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? DataSize { get; set; }
+
+        [JsonProperty("FooterSize", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? FooterSize { get; set; }
+
+        [JsonProperty("IsStreamable", NullValueHandling = NullValueHandling.Ignore)]
+        public string IsStreamable { get; set; }
+
+        [JsonProperty("Encoded_Application", NullValueHandling = NullValueHandling.Ignore)]
+        public string EncodedApplication { get; set; }
+
+        [JsonProperty("StreamOrder", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? StreamOrder { get; set; }
+
+        [JsonProperty("Format_Level", NullValueHandling = NullValueHandling.Ignore)]
+        public string FormatLevel { get; set; }
+
+        [JsonProperty("Format_Settings_CABAC", NullValueHandling = NullValueHandling.Ignore)]
+        public string FormatSettingsCabac { get; set; }
+
+        [JsonProperty("Format_Settings_RefFrames", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? FormatSettingsRefFrames { get; set; }
+
+        [JsonProperty("Width", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? Width { get; set; }
+
+        [JsonProperty("Height", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? Height { get; set; }
+
+        [JsonProperty("Sampled_Width", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? SampledWidth { get; set; }
+
+        [JsonProperty("Sampled_Height", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? SampledHeight { get; set; }
+
+        [JsonProperty("PixelAspectRatio", NullValueHandling = NullValueHandling.Ignore)]
+        public string PixelAspectRatio { get; set; }
+
+        [JsonProperty("DisplayAspectRatio", NullValueHandling = NullValueHandling.Ignore)]
+        public string DisplayAspectRatio { get; set; }
+
+        [JsonProperty("DisplayAspectRatio_Original", NullValueHandling = NullValueHandling.Ignore)]
+        public string DisplayAspectRatioOriginal { get; set; }
+
+        [JsonProperty("Rotation", NullValueHandling = NullValueHandling.Ignore)]
+        public string Rotation { get; set; }
+
+        [JsonProperty("FrameRate_Mode", NullValueHandling = NullValueHandling.Ignore)]
+        public string FrameRateMode { get; set; }
+
+        [JsonProperty("FrameRate_Minimum", NullValueHandling = NullValueHandling.Ignore)]
+        public string FrameRateMinimum { get; set; }
+
+        [JsonProperty("FrameRate_Maximum", NullValueHandling = NullValueHandling.Ignore)]
+        public string FrameRateMaximum { get; set; }
+
+        [JsonProperty("ColorSpace", NullValueHandling = NullValueHandling.Ignore)]
+        public string ColorSpace { get; set; }
+
+        [JsonProperty("ChromaSubsampling", NullValueHandling = NullValueHandling.Ignore)]
+        public string ChromaSubsampling { get; set; }
+
+        [JsonProperty("BitDepth", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? BitDepth { get; set; }
+
+        [JsonProperty("ScanType", NullValueHandling = NullValueHandling.Ignore)]
+        public string ScanType { get; set; }
+
+        [JsonProperty("extra", NullValueHandling = NullValueHandling.Ignore)]
+        public Extra Extra { get; set; }
+
+        [JsonProperty("Format_AdditionalFeatures", NullValueHandling = NullValueHandling.Ignore)]
+        public string FormatAdditionalFeatures { get; set; }
+
+        [JsonProperty("ChannelPositions", NullValueHandling = NullValueHandling.Ignore)]
+        public string ChannelPositions { get; set; }
+
+        [JsonProperty("ChannelLayout", NullValueHandling = NullValueHandling.Ignore)]
+        public string ChannelLayout { get; set; }
+
+        [JsonProperty("SamplesPerFrame", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? SamplesPerFrame { get; set; }
+
+        [JsonProperty("StreamSize_Proportion", NullValueHandling = NullValueHandling.Ignore)]
+        public string StreamSizeProportion { get; set; }
+
+        [JsonProperty("Default", NullValueHandling = NullValueHandling.Ignore)]
+        public string Default { get; set; }
+
+        [JsonProperty("AlternateGroup", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? AlternateGroup { get; set; }
+    }
+
+    public partial class Extra
+    {
+        [JsonProperty("Codec_configuration_box", NullValueHandling = NullValueHandling.Ignore)]
+        public string CodecConfigurationBox { get; set; }
+    }
 }
