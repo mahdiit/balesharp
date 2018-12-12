@@ -61,6 +61,12 @@
     <Compile Include="BinTools\MediaInfoMeta\Model\AudioMediaInfo.cs" />
     <Compile Include="BinTools\MediaInfoMeta\Model\Media.cs" />
     <Compile Include="BinTools\MediaInfoMeta\Model\Track.cs" />
+    <Compile Include="DlFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DlFile.Designer.cs">
+      <DependentUpon>DlFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="FileCache\FileInfoModel.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -95,6 +101,9 @@
     <Compile Include="Model\UploadType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DlFile.resx">
+      <DependentUpon>DlFile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,13 +134,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BinTools\MediaInfoMeta\LIBCURL.DLL">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="BinTools\MediaInfoMeta\License.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="BinTools\MediaInfoMeta\MediaInfo.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="FileCache\_nomedia.txt">

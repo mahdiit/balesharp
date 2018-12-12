@@ -466,6 +466,14 @@ namespace BaleBotWin
 
         private void btnVoice_Click(object sender, EventArgs e)
         {
+            var mediaInfoExe = AppDomain.CurrentDomain.BaseDirectory + "BinTools\\MediaInfoMeta\\MediaInfo.exe";
+            if (!File.Exists(mediaInfoExe))
+            {
+                MessageBox.Show("فایل MediaInfo.exe یافت نشد از سایت دانلود و در پوشه \r\nBinTools\\MediaInfoMeta\r\nقرار دهید\r\nhttps://mediaarea.net/en/MediaInfo/Download/Windows");
+                return;
+            }
+
+
             if (socketConnection == null || !socketConnection.IsAlive)
             {
                 MessageBox.Show("ارتباط با سرور بله قطع است");
