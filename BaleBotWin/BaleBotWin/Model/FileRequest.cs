@@ -2,7 +2,7 @@
 
 namespace BaleBotWin.Model
 {
-    public partial class UploadRequest
+    public partial class FileRequest<T>
     {
         [JsonProperty("service")]
         public string Service { get; set; }
@@ -11,7 +11,7 @@ namespace BaleBotWin.Model
         public string Type { get; set; }
 
         [JsonProperty("body")]
-        public UploadRequestBody Body { get; set; }
+        public T Body { get; set; }
 
         [JsonProperty("id")]
         [JsonConverter(typeof(ParseStringConverter))]

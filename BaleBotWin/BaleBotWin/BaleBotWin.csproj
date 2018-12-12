@@ -71,6 +71,7 @@
     <Compile Include="Model\Body.cs" />
     <Compile Include="Model\BtnList.cs" />
     <Compile Include="Model\Caption.cs" />
+    <Compile Include="Model\DownloadRequestBody.cs" />
     <Compile Include="Model\Ext.cs" />
     <Compile Include="Model\FileLocation.cs" />
     <Compile Include="Model\Image.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="Model\GeneralMessage.cs" />
     <Compile Include="Model\SendVoice.cs" />
     <Compile Include="Model\Thumb.cs" />
-    <Compile Include="Model\UploadRequest.cs" />
+    <Compile Include="Model\FileRequest.cs" />
     <Compile Include="Model\UploadRequestBody.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\ParseStringConverter.cs" />

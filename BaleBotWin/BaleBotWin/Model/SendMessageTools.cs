@@ -122,7 +122,7 @@ namespace BaleBotWin.Model
             File.WriteAllBytes(cacheFile, fileData);
             File.WriteAllText(infoFile, JsonConvert.SerializeObject(cacheInfo));
 
-            var request = new UploadRequest()
+            var request = new FileRequest<UploadRequestBody>()
             {
                 Body = new UploadRequestBody()
                 {
