@@ -25,7 +25,7 @@ Bale Messenger Bot Sample (C#)
 
 توجه
 جهت برخی کاربردهای صوتی و تصویری نیازمند قراردادن برنامه زیر در پوشه مربوطه در برنامه هستین
-* https://mediaarea.net/en/MediaInfo/Download/Windows
+* https://mediaarea.net/en/MediaInfo/Download/Windows (Cli Version)
 
 به دلیل قوانین مربوطه در گیت هاب نمیتوان نسخه باینری را در سورس قرارداد.
 
