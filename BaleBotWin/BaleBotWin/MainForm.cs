@@ -207,77 +207,103 @@ namespace BaleBotWin
                     {
                         //دریافت پاسخ برای آپلود فایل و ارسال فایل
                         var id = baleObject["id"].Value<long>();
-                        var uploadUrl = baleObject["body"]["url"].Value<string>();
+                        var receivedUrl = baleObject["body"]["url"].Value<string>();
 
-                        FileCache.FileInfoModel fileInfoModel;
-                        if (SendMessageTools.UploadFile(id, uploadUrl, socketConnection, out fileInfoModel))
+                        if (SendMessageTools.IsDownloadPending(id))
                         {
-                            //send Info
-                            var fileId = baleObject["body"]["fileId"].Value<string>();
-                            var hash = baleObject["body"]["userId"].Value<long>();
-
-                            string msg = null;
-
-                            //تشخیص ارسال عکس
-                            if (fileInfoModel.UploadType == UploadTypeEnum.Document)
+                            var fileName = SendMessageTools.GetDownloadFilename(id);
+                            var dlUrl = receivedUrl + "?filename=" + fileName;
+                            socketConnection.Log.Info("Download File");
+                            socketConnection.Log.Info(dlUrl);
+                            SendMessageTools.DownloadFile(dlUrl, socketConnection, fileName);
+                            SendMessageTools.DeleteDownload(id);
+                        }
+                        else if (SendMessageTools.IsUploadPending(id))
+                        {
+                            FileCache.FileInfoModel fileInfoModel;
+                            if (SendMessageTools.UploadFile(id, receivedUrl, socketConnection, out fileInfoModel))
                             {
-                                msg = SendMessageTools.GetDocumentMessage(new SendDocument()
-                                {
-                                    Type = "Document",
-                                    AccessHash = hash,
-                                    Algorithm = "algorithm",
-                                    CheckSum = "checkSum",
-                                    Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
-                                    Ext = null,
-                                    FileId = fileId,
-                                    FileSize = fileInfoModel.Size,
-                                    FileStorageVersion = 1,
-                                    MimeType = "application/document",
-                                    Name = fileInfoModel.Name,
-                                    Thumb = null
-                                }, LastUser);
-                            }
-                            else if (fileInfoModel.UploadType == UploadTypeEnum.Photo)
-                            {
-                                LastPhoto = new SendPhoto()
-                                {
-                                    Type = "Document",
-                                    AccessHash = hash,
-                                    Algorithm = "algorithm",
-                                    CheckSum = "checkSum",
-                                    Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
-                                    FileId = fileId,
-                                    FileSize = fileInfoModel.Size,
-                                    FileStorageVersion = 1,
-                                    Name = fileInfoModel.Name,
-                                    MimeType = "image/jpeg",
-                                    Ext = new Ext() { Type = "Photo", Width = fileInfoModel.Width, Height = fileInfoModel.Height },
-                                    Thumb = new Thumb() { ThumbThumb = "None", Width = fileInfoModel.Width, Height = fileInfoModel.Height }
-                                };
-                                msg = SendMessageTools.GetPhotoMessage(LastPhoto, LastUser);
-                            }
-                            else if (fileInfoModel.UploadType == UploadTypeEnum.Voice)
-                            {
-                                msg = SendMessageTools.GetSendVoice(new SendVoice()
-                                {
-                                    Type = "Document",
-                                    AccessHash = hash,
-                                    Algorithm = "algorithm",
-                                    CheckSum = "checkSum",
-                                    Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
-                                    FileId = fileId,
-                                    FileSize = fileInfoModel.Size,
-                                    FileStorageVersion = 1,
-                                    Name = fileInfoModel.Name,
-                                    MimeType = "audio/mp3",
-                                    Ext = new Ext() { Type = "Voice", Duration = (int)(Convert.ToDouble(fileInfoModel.Duration) * 1000) }
-                                }, LastUser);
-                            }
+                                //send Info
+                                var fileId = baleObject["body"]["fileId"].Value<string>();
+                                var hash = baleObject["body"]["userId"].Value<long>();
 
-                            if (msg != null)
-                                socketConnection.Send(msg);
+                                string msg = null;
 
-                            SendMessageTools.DeleteCacheUpload(id);
+                                //تشخیص ارسال عکس
+                                if (fileInfoModel.UploadType == UploadTypeEnum.Document)
+                                {
+                                    msg = SendMessageTools.GetDocumentMessage(new SendDocument()
+                                    {
+                                        Type = "Document",
+                                        AccessHash = hash,
+                                        Algorithm = "algorithm",
+                                        CheckSum = "checkSum",
+                                        Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
+                                        Ext = null,
+                                        FileId = fileId,
+                                        FileSize = fileInfoModel.Size,
+                                        FileStorageVersion = 1,
+                                        MimeType = "application/document",
+                                        Name = fileInfoModel.Name,
+                                        Thumb = null
+                                    }, LastUser);
+                                }
+                                else if (fileInfoModel.UploadType == UploadTypeEnum.Photo)
+                                {
+                                    LastPhoto = new SendPhoto()
+                                    {
+                                        Type = "Document",
+                                        AccessHash = hash,
+                                        Algorithm = "algorithm",
+                                        CheckSum = "checkSum",
+                                        Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
+                                        FileId = fileId,
+                                        FileSize = fileInfoModel.Size,
+                                        FileStorageVersion = 1,
+                                        Name = fileInfoModel.Name,
+                                        MimeType = "image/jpeg",
+                                        Ext = new Ext()
+                                        {
+                                            Type = "Photo",
+                                            Width = fileInfoModel.Width,
+                                            Height = fileInfoModel.Height
+                                        },
+                                        Thumb = new Thumb()
+                                        {
+                                            ThumbThumb = "None",
+                                            Width = fileInfoModel.Width,
+                                            Height = fileInfoModel.Height
+                                        }
+                                    };
+                                    msg = SendMessageTools.GetPhotoMessage(LastPhoto, LastUser);
+                                }
+                                else if (fileInfoModel.UploadType == UploadTypeEnum.Voice)
+                                {
+                                    msg = SendMessageTools.GetSendVoice(new SendVoice()
+                                    {
+                                        Type = "Document",
+                                        AccessHash = hash,
+                                        Algorithm = "algorithm",
+                                        CheckSum = "checkSum",
+                                        Caption = new Caption() { Text = txtPayam.Text, Type = "Text" },
+                                        FileId = fileId,
+                                        FileSize = fileInfoModel.Size,
+                                        FileStorageVersion = 1,
+                                        Name = fileInfoModel.Name,
+                                        MimeType = "audio/mp3",
+                                        Ext = new Ext()
+                                        {
+                                            Type = "Voice",
+                                            Duration = (int)(Convert.ToDouble(fileInfoModel.Duration) * 1000)
+                                        }
+                                    }, LastUser);
+                                }
+
+                                if (msg != null)
+                                    socketConnection.Send(msg);
+
+                                SendMessageTools.DeleteCacheUpload(id);
+                            }
                         }
                     }
                 }
@@ -493,6 +519,12 @@ namespace BaleBotWin
             var msg = SendMessageTools.UploadRequest(new FileInfo(filePath), UploadTypeEnum.Voice);
             socketConnection.Send(msg);
             socketConnection.Log.Info("Upload Requested");
+        }
+
+        private void btnDownload_Click(object sender, EventArgs e)
+        {
+            var dl = new DlFile(socketConnection);
+            dl.ShowDialog();
         }
     }
 }

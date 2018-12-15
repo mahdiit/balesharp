@@ -7,19 +7,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BaleBotWin.Model;
+using WebSocketSharp;
 
 namespace BaleBotWin
 {
     public partial class DlFile : Form
     {
-        public DlFile()
+        private WebSocket webSocket;
+        public DlFile(WebSocket socket)
         {
             InitializeComponent();
+            webSocket = socket;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            var str = SendMessageTools.DownloadRequest(txtFileId.Text, txtAccessHash.Text, txtName.Text,
+                txtVersion.Text == "file");
 
+            webSocket.Log.Info("Download Request");
+            webSocket.Send(str);
+
+            Close();
         }
     }
 }

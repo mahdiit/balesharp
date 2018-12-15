@@ -18,13 +18,13 @@ namespace BaleBotWin.Model
         [JsonProperty("fileType")]
         public string FileType { get; set; }
 
-        [JsonProperty("userId", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("fileId", NullValueHandling = NullValueHandling.Ignore)]
         public string FileId { get; set; }
 
         [JsonProperty("fileVersion", NullValueHandling = NullValueHandling.Ignore)]
         public long? FileStorageVersion { get; set; }
 
-        [JsonProperty("accessHash", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("userId", NullValueHandling = NullValueHandling.Ignore)]
         public string AccessHash { get; set; }
 
         [JsonProperty("isResumeUpload", NullValueHandling = NullValueHandling.Ignore)]

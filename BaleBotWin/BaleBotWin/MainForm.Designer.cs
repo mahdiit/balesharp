@@ -43,6 +43,7 @@
             this.btnMoney = new System.Windows.Forms.Button();
             this.btnVoice = new System.Windows.Forms.Button();
             this.openOggAudio = new System.Windows.Forms.OpenFileDialog();
+            this.btnDownload = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logData
@@ -178,6 +179,16 @@
             this.openOggAudio.Filter = "Mp3 File|*.mp3|All File|*.*";
             this.openOggAudio.Title = "Select Voice";
             // 
+            // btnDownload
+            // 
+            this.btnDownload.Location = new System.Drawing.Point(148, 309);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(74, 41);
+            this.btnDownload.TabIndex = 1;
+            this.btnDownload.Text = "Download";
+            this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -187,6 +198,7 @@
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.txtPayam);
             this.Controls.Add(this.txtRec);
+            this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.btnVoice);
             this.Controls.Add(this.btnMoney);
             this.Controls.Add(this.btnTemplate);
@@ -225,6 +237,7 @@
         private System.Windows.Forms.Button btnMoney;
         private System.Windows.Forms.Button btnVoice;
         private System.Windows.Forms.OpenFileDialog openOggAudio;
+        private System.Windows.Forms.Button btnDownload;
     }
 }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
@@ -8,6 +10,7 @@ using BaleBotWin.FileCache;
 using CliWrap;
 using Force.Crc32;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WebSocketSharp;
 
 namespace BaleBotWin.Model
@@ -138,6 +141,11 @@ namespace BaleBotWin.Model
             };
 
             return JsonConvert.SerializeObject(request);
+        }
+
+        public static bool IsUploadPending(long id)
+        {
+            return File.Exists(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".cache");
         }
 
         public static bool UploadFile(long id, string uploadUrl, WebSocket ws, out FileCache.FileInfoModel fileInfoModel)
@@ -281,6 +289,99 @@ namespace BaleBotWin.Model
             };
 
             return JsonConvert.SerializeObject(obj);
+        }
+
+        public static bool IsDownloadPending(long id)
+        {
+            return File.Exists(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".download");
+        }
+
+        public static string DownloadRequest(string fileId, string accessHash, string fileName, bool isPhoto)
+        {
+            var id = DateTime.Now.Ticks;
+            var filePath = AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".download";
+            var info = new Dictionary<string, string>
+            {
+                {"fileId", fileId},
+                {"accessHash", accessHash},
+                {"fileName", fileName},
+                {"isPhoto", isPhoto.ToString()}
+            };
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(info));
+            var request = new FileRequest<DownloadRequestBody>()
+            {
+                Body =  new DownloadRequestBody()
+                {
+                    Type = "GetFileDownloadUrl",
+                    FileType = isPhoto ? "photo" : "file",
+                    IsServer = false,
+                    FileId = fileId,
+                    AccessHash = accessHash,
+                    FileStorageVersion = 1,
+                    IsResumeUpload = false
+                },
+                Id = id,
+                Service = "files",
+                Type = "Request"
+            };
+            return JsonConvert.SerializeObject(request);
+        }
+
+        public static void DeleteDownload(long id)
+        {
+            File.Delete(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".download");
+        }
+
+        public static string GetDownloadFilename(long id)
+        {
+            var obj = JObject.Parse(File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + id + ".download"));
+            return obj["fileName"].Value<string>();
+
+        }
+        public static void DownloadFile(string dlUrl, WebSocket socket, string fileName)
+        {
+            try
+            {
+                var httpRequest = (HttpWebRequest) WebRequest.Create(dlUrl);
+                httpRequest.Method = "GET";
+
+                var response = httpRequest.GetResponse();
+                var headers = "";
+                foreach (var key in response.Headers.AllKeys)
+                {
+                    headers += string.Format("{0}:{1}\r\n", key, response.Headers[key]);
+                }
+                socket.Log.Info(headers);
+                socket.Log.Info("downloading file.....");
+
+                byte[] buffer = new byte[1024];
+                var fileData = new MemoryStream();
+                using (var stream = response.GetResponseStream())
+                {
+                    if (stream == null)
+                    {
+                        socket.Log.Error("Invalid Stream.");
+                        return;
+                    }
+
+                    var count = stream.Read(buffer, 0, 1024);
+                    while (count > 0)
+                    {
+                        fileData.Write(buffer, 0, count);
+                        count = stream.Read(buffer, 0, 1024);
+                    }
+                    stream.Close();
+                }
+
+                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + "download-" + fileName, fileData.ToArray());
+                fileData.Dispose();
+
+                Process.Start(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\");
+            }
+            catch (Exception ex)
+            {
+                socket.Log.Error("Error in download file:\r\n" + ex.Message);
+            }
         }
     }
 }
