@@ -19,7 +19,9 @@ namespace BaleBotWin
     public partial class MainForm : Form
     {
         private WebSocket socketConnection;
+
         private Peer LastUser;
+
         private SendPhoto LastPhoto;
 
         public const string BaseApiUrl = "wss://api.bale.ai/v1/bots/";
@@ -177,6 +179,40 @@ namespace BaleBotWin
                                 StickerCollectionAccessHash = "-8925386374726878396",
                                 StickerId = 1345218
                             }, LastUser);
+
+
+                            //var welcomeSticker = SendMessageTools.GetStickerMessage(new SendSticker()
+                            //{
+                            //    Type = "Sticker",
+                            //    FastPreview = null,
+                            //    Image256 = new Model.Image()
+                            //    {
+                            //        FileLocation = new FileLocation()
+                            //        {
+                            //            FileStorageVersion = 1,
+                            //            AccessHash = "1884281475",
+                            //            FileId = "5894772107577788931"
+                            //        },
+                            //        Height = 256,
+                            //        Width = 256,
+                            //        FileSize = 4924
+                            //    },
+                            //    Image512 = new Model.Image()
+                            //    {
+                            //        FileLocation = new FileLocation()
+                            //        {
+                            //            FileStorageVersion = 1,
+                            //            AccessHash = "1884281475",
+                            //            FileId = "5894772107577788931"
+                            //        },
+                            //        Height = 512,
+                            //        Width = 512,
+                            //        FileSize = 11356
+                            //    },
+                            //    StickerCollectionId = 265723345,
+                            //    StickerCollectionAccessHash = "-8925386374726878396",
+                            //    StickerId = 1345218
+                            //}, LastUser);
 
                             socketConnection.Send(welcomeSticker);
                         }

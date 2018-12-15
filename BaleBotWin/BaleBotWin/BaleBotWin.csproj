@@ -119,6 +119,7 @@
     <Content Include="BinTools\MediaInfoMeta\LICENSE">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="JsonSample\BankPaymentSuccess.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
