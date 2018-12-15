@@ -373,10 +373,12 @@ namespace BaleBotWin.Model
                     stream.Close();
                 }
 
-                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\" + "download-" + fileName, fileData.ToArray());
+                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\Download\\" + fileName,
+                    fileData.ToArray());
+
                 fileData.Dispose();
 
-                Process.Start(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\");
+                Process.Start(AppDomain.CurrentDomain.BaseDirectory + "FileCache\\Download\\");
             }
             catch (Exception ex)
             {
