@@ -44,6 +44,8 @@
             this.btnVoice = new System.Windows.Forms.Button();
             this.openOggAudio = new System.Windows.Forms.OpenFileDialog();
             this.btnDownload = new System.Windows.Forms.Button();
+            this.btnSendJson = new System.Windows.Forms.Button();
+            this.btnUser = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // logData
@@ -189,6 +191,26 @@
             this.btnDownload.UseVisualStyleBackColor = true;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
             // 
+            // btnSendJson
+            // 
+            this.btnSendJson.Location = new System.Drawing.Point(12, 310);
+            this.btnSendJson.Name = "btnSendJson";
+            this.btnSendJson.Size = new System.Drawing.Size(130, 90);
+            this.btnSendJson.TabIndex = 1;
+            this.btnSendJson.Text = "Send Above Json";
+            this.btnSendJson.UseVisualStyleBackColor = true;
+            this.btnSendJson.Click += new System.EventHandler(this.btnSendJson_Click);
+            // 
+            // btnUser
+            // 
+            this.btnUser.Location = new System.Drawing.Point(148, 356);
+            this.btnUser.Name = "btnUser";
+            this.btnUser.Size = new System.Drawing.Size(74, 41);
+            this.btnUser.TabIndex = 1;
+            this.btnUser.Text = "User";
+            this.btnUser.UseVisualStyleBackColor = true;
+            this.btnUser.Click += new System.EventHandler(this.btnUser_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -198,8 +220,10 @@
             this.Controls.Add(this.txtToken);
             this.Controls.Add(this.txtPayam);
             this.Controls.Add(this.txtRec);
+            this.Controls.Add(this.btnSendJson);
             this.Controls.Add(this.btnDownload);
             this.Controls.Add(this.btnVoice);
+            this.Controls.Add(this.btnUser);
             this.Controls.Add(this.btnMoney);
             this.Controls.Add(this.btnTemplate);
             this.Controls.Add(this.btnPhoto);
@@ -238,6 +262,8 @@
         private System.Windows.Forms.Button btnVoice;
         private System.Windows.Forms.OpenFileDialog openOggAudio;
         private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.Button btnSendJson;
+        private System.Windows.Forms.Button btnUser;
     }
 }
 

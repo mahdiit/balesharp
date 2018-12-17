@@ -562,5 +562,27 @@ namespace BaleBotWin
             var dl = new DlFile(socketConnection);
             dl.ShowDialog();
         }
+
+        private void btnSendJson_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("کل پیام که باید به فرمت جیسون باشد در باکس بالا به سرور ارسال خواهد شد", "ارسال پیام",
+                    MessageBoxButtons.OKCancel) == DialogResult.OK)
+                socketConnection.Send(txtPayam.Text);
+        }
+
+        private void btnUser_Click(object sender, EventArgs e)
+        {
+            UserIdShow userInfoWin;
+
+            if(LastUser == null)
+                userInfoWin = new UserIdShow(new Peer());
+            else 
+                userInfoWin = new UserIdShow(LastUser);
+
+            if (userInfoWin.ShowDialog() == DialogResult.OK)
+            {
+                LastUser = userInfoWin.UserInfo;
+            }
+        }
     }
 }

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BaleBotWin")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Bale Bot Sample")]
+[assembly: AssemblyDescription("Create a sample bot connection to baleapi")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BaleBotWin")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("Mahdi Yousefi")]
+[assembly: AssemblyProduct("Bale Bot Sample")]
+[assembly: AssemblyCopyright("Copyright Mahdi Yousefi ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
